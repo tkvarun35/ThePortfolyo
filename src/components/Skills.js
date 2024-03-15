@@ -114,7 +114,7 @@ function Skills(data) {
                     .sort((a, b) => (a.sequence > b.sequence ? 1 : -1))
                     .map((e) => {
                       return e.enabled && e.forEducation ? (
-                        <div className="history-item">
+                        <div className="history-item" key={e._id}>
                           <div className="date">
                             {getYear(e.startDate, false)} - {getYear(e.endDate)}
                           </div>
@@ -159,7 +159,7 @@ function Skills(data) {
                     .sort((a, b) => (a.sequence > b.sequence ? 1 : -1))
                     .map((e) => {
                       return e.enabled && !e.forEducation ? (
-                        <div className="history-item">
+                        <div className="history-item" key={e._id}>
                           {e.icon && (
                             <div className="icon">
                               <Image

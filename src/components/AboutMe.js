@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 function AboutMe(data) {
   return (
     <section
@@ -48,6 +50,9 @@ function AboutMe(data) {
           <div className="col-xs-12 col-sm-12 col-md-9 col-lg-9 vertical-line">
             {/* Section Profile */}
             <div className="profile-box">
+              <div className="title">
+                <h2>{data.data.about.name}</h2>
+              </div>
               <div className="text">
                 {data.data.about.description}
                 {data.data.about.signature && (
@@ -55,6 +60,59 @@ function AboutMe(data) {
                     <img src={data.data.about.signature.url} alt="" />
                   </div>
                 )}
+                <br />
+                <br />
+
+                {data.data.about.exp_year && (
+                  <div className="text" style={{ color: "black" }}>
+                    Work Experience: {data.data.about.exp_year}{" "}
+                  </div>
+                )}
+                <br />
+                <br />
+                {data.data.about.phoneNumber && (
+                  <div className="text" style={{ color: "black" }}>
+                    Contact No: {data.data.about.phoneNumber}{" "}
+                  </div>
+                )}
+                {data.data.about.address && (
+                  <div className="text" style={{ color: "black" }}>
+                    {data.data.about.address}{" "}
+                  </div>
+                )}
+                <br />
+                <div className="social-links">
+                  {data.data.social_handles.map((e) => {
+                    return (
+                      <a
+                        target="_blank"
+                        rel="noreferrer"
+                        href={e.url}
+                        key={e._id}
+                      >
+                        {/* <i aria-hidden="true" className="fab fa-twitter" /> */}
+                        <Image
+                          src={e.image.url}
+                          width={30}
+                          height={30}
+                          alt="Picture of the social handle"
+                        />
+                      </a>
+                    );
+                  })}
+                </div>
+                <br />
+
+                {data.data.youtube.map((e) => {
+                  return (
+                    <iframe
+                      width="420"
+                      height="315"
+                      src={e.url}
+                      key={e._id}
+                    ></iframe>
+                  );
+                })}
               </div>
             </div>
           </div>

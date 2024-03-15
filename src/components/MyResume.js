@@ -20,7 +20,6 @@ function MyResume() {
       )
         .then(async (response) => {
           console.log(response);
-
           if (response.success) setData(response.user);
           else setData(false);
         })

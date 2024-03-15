@@ -2036,6 +2036,35 @@ body.light-skin .header.sticky .navbar.default:before {
 	position: relative;
 }
 
+.techStack{
+	background-color: rgb(162, 161, 161);
+
+	color:white;
+	border-radius: 25px;
+	text-align: center;
+	padding-left: 10px;
+	padding-right: 10px;
+	width: max-content;
+	margin-right: 3px;
+	margin-top: 2px;
+	
+}
+.techStack:hover{
+	background-color: rgb(94, 93, 93);
+	
+	
+	
+}
+
+.techcategory{
+	display: flex;
+	flex-direction: row;
+	width: 300px;
+	flex-wrap: wrap;
+
+}
+
+
 .m-titles .m-category {
 	margin-bottom: 50px;
 	color: #bdc1c7;

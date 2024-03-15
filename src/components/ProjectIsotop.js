@@ -125,17 +125,19 @@ const ProjectIsotop = (data) => {
                         </span>
                         <span className="desc">
                           <span className="name">{e.title}</span>
-                          <span className="category">
+                          <span className="techcategory">
                             {e.techStack.map((tech, key) => {
                               return (
-                                <div key={key}>
+                                <div key={key} className="techStack">
                                   {tech}
                                   <br />
                                 </div>
                               );
                             })}
                           </span>
-                          <span className="text">{e.desc}</span>
+                          <span className="text" style={{ color: "black" }}>
+                            {e.description}
+                          </span>
                           <div className="social-links">
                             <div className="icon" href={e.liveurl}>
                               <i aria-hidden="true" className="fas fa-globe" />
