@@ -23,7 +23,7 @@ const ProjectIsotop = (data) => {
     const tech = new Set();
     data.data.map((e) => {
       return e.techStack.map((techval) => {
-        tech.add(techval);
+        tech.add(techval.trim());
       });
     });
     setTechStack([...tech]);
@@ -61,7 +61,7 @@ const ProjectIsotop = (data) => {
   const mergeTech = (techstackArr) => {
     let out = " ";
     techstackArr.map((e) => {
-      out = out + "sort-" + textToBinary(e) + "-tech" + " ";
+      out = out + "sort-" + textToBinary(e.trim()) + "-tech" + " ";
     });
     // console.log(out);
     return out;
