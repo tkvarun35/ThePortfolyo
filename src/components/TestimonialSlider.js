@@ -3,7 +3,7 @@ import { testimonialsSlider } from "../sliderProps";
 import Image from "next/image";
 
 const TestimonialSlider = (data) => {
-  console.log(data);
+  // console.log(data);
   return (
     <div className="m-testimonials">
       <Swiper

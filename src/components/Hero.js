@@ -84,6 +84,7 @@ function Hero(data) {
             <div className="titles">
               <div className="subtitle">{data.data.about.title}</div>
               <h2 className="title">{data.data.about.name}</h2>
+              <h6 className="text">{data.data.about.quote}</h6>
             </div>
             <div className="description">
               <p>{data.data.about.subTitle}</p>

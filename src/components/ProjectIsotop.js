@@ -5,8 +5,30 @@ import Link from "next/link";
 import { Fragment, useEffect, useRef, useState } from "react";
 const ProjectIsotop = (data) => {
   // Isotope
+  // console.log(data);
   const isotope = useRef();
   const [filterKey, setFilterKey] = useState("*");
+  const [techstack, setTechStack] = useState([]);
+  const textToBinary = (text) => {
+    return text
+      .split("")
+      .map((char) => {
+        const binary = char.charCodeAt(0).toString(2);
+        // Ensure each character is represented by 8 bits
+        return "0".repeat(8 - binary.length) + binary;
+      })
+      .join("");
+  };
+  useEffect(() => {
+    const tech = new Set();
+    data.data.map((e) => {
+      return e.techStack.map((techval) => {
+        tech.add(techval);
+      });
+    });
+    setTechStack([...tech]);
+  }, []);
+  // console.log(techstack);
   useEffect(() => {
     setTimeout(() => {
       isotope.current = new Isotope(".works-items", {
@@ -35,6 +57,16 @@ const ProjectIsotop = (data) => {
   const handleFilterKeyChange = (key) => () => {
     setFilterKey(key);
   };
+
+  const mergeTech = (techstackArr) => {
+    let out = " ";
+    techstackArr.map((e) => {
+      out = out + "sort-" + textToBinary(e) + "-tech" + " ";
+    });
+    // console.log(out);
+    return out;
+  };
+
   const activeBtn = (value) => (value === filterKey ? "active" : "");
   return (
     <Fragment>
@@ -47,42 +79,33 @@ const ProjectIsotop = (data) => {
           >
             All
           </a>
-          {/* <a
-            className={`c-pointer ${activeBtn("sorting-ui-ux-design")}`}
-            onClick={handleFilterKeyChange("sorting-ui-ux-design")}
-            data-href=".sorting-ui-ux-design"
-          >
-            UI UX Design
-          </a>
-          <a
-            className={`c-pointer ${activeBtn("sorting-photo")}`}
-            onClick={handleFilterKeyChange("sorting-photo")}
-            data-href=".sorting-photo"
-          >
-            Photography
-          </a>
-          <a
-            className={`c-pointer ${activeBtn("sorting-development")}`}
-            onClick={handleFilterKeyChange("sorting-development")}
-            data-href=".sorting-development"
-          >
-            Development
-          </a>
-          <a
-            className={`c-pointer ${activeBtn("sorting-branding")}`}
-            onClick={handleFilterKeyChange("sorting-branding")}
-            data-href=".sorting-branding"
-          >
-            Branding
-          </a> */}
+          {techstack.map((tech, key) => {
+            return (
+              <a
+                className={`c-pointer ${activeBtn(
+                  `sort-${textToBinary(tech)}-tech`
+                )}`}
+                onClick={handleFilterKeyChange(
+                  `sort-${textToBinary(tech)}-tech`
+                )}
+                data-href={`.sort-${textToBinary(tech)}-tech`}
+                key={key}
+              >
+                {tech}
+              </a>
+            );
+          })}
         </div>
         <div className="works-items works-list-items row">
           {data.data
             .sort((a, b) => (a.sequence > b.sequence ? 1 : -1))
             .map((e) => {
-              return (
+              return e.enabled ? (
                 <div
-                  className="works-col col-xs-12 col-sm-12 col-md-12 col-lg-12 sorting-branding sorting-photo "
+                  className={
+                    "works-col col-xs-12 col-sm-12 col-md-12 col-lg-12 sorting-branding sorting-photo" +
+                    mergeTech(e.techStack)
+                  }
                   key={e._id}
                 >
                   <div className="works-item">
@@ -102,17 +125,32 @@ const ProjectIsotop = (data) => {
                         </span>
                         <span className="desc">
                           <span className="name">{e.title}</span>
-                          {/* <span className="category">
-                            Branding
-                            <br />
-                            Photography
-                          </span> */}
+                          <span className="category">
+                            {e.techStack.map((tech, key) => {
+                              return (
+                                <div key={key}>
+                                  {tech}
+                                  <br />
+                                </div>
+                              );
+                            })}
+                          </span>
                           <span className="text">{e.desc}</span>
+                          <div className="social-links">
+                            <div className="icon" href={e.liveurl}>
+                              <i aria-hidden="true" className="fas fa-globe" />
+                            </div>
+                            <div className="icon" href={e.githuburl}>
+                              <i aria-hidden="true" className="fab fa-github" />
+                            </div>
+                          </div>
                         </span>
                       </a>
                     </Link>
                   </div>
                 </div>
+              ) : (
+                <></>
               );
             })}
         </div>

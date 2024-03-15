@@ -1,6 +1,24 @@
 import Image from "next/image";
+import { useEffect, useState } from "react";
 
 function Skills(data) {
+  const getYear = (time, isEndDate = true) => {
+    const dateObject = new Date(time);
+    const d = new Date();
+    let year = d.getFullYear();
+    const dataYear = dateObject.getFullYear();
+    if (year === dataYear && isEndDate) return "Present";
+    return dataYear;
+  };
+  const [edu, setEdu] = useState(false);
+  const [exp, setExp] = useState(false);
+
+  useEffect(() => {
+    data.data.timeline.map((e) => {
+      if (e.forEducation) setEdu(true);
+      else setExp(true);
+    });
+  });
   return (
     <section
       className="section section-parallax section-parallax-2"
@@ -89,19 +107,26 @@ function Skills(data) {
             </div>
             {/* History */}
             <div className="history-left">
-              <div className="history-items">
-                <div className="p-title">EDUCATION</div>
-                <div className="history-item">
-                  <div className="date">2010 - 2012</div>
-                  <div className="name">Master in Graphic</div>
-                  <div className="subname">New York University</div>
+              {edu && (
+                <div className="history-items">
+                  <div className="p-title">EDUCATION</div>
+                  {data.data.timeline
+                    .sort((a, b) => (a.sequence > b.sequence ? 1 : -1))
+                    .map((e) => {
+                      return e.enabled && e.forEducation ? (
+                        <div className="history-item">
+                          <div className="date">
+                            {getYear(e.startDate, false)} - {getYear(e.endDate)}
+                          </div>
+                          <div className="name">{e.jobTitle}</div>
+                          <div className="subname">{e.company_name}</div>
+                        </div>
+                      ) : (
+                        <></>
+                      );
+                    })}
                 </div>
-                <div className="history-item">
-                  <div className="date">2006 - 2009</div>
-                  <div className="name">Bachelors of FineArt</div>
-                  <div className="subname">New York University</div>
-                </div>
-              </div>
+              )}
               <div className="history-items">
                 <div className="p-title">AWARDS</div>
                 <div className="history-item">
@@ -126,44 +151,44 @@ function Skills(data) {
                 </div>
               </div>
             </div>
-            <div className="history-right">
-              <div className="history-items">
-                <div className="p-title">EXPERIENCE</div>
-                <div className="history-item">
-                  <div className="date">2014 - Present</div>
-                  <div className="name">Soft Tech Inc.</div>
-                  <div className="subname">UI Head &amp; Manager</div>
-                  <div className="text">
-                    <p>
-                      Euismod vel bibendum ultrices, fringilla vel eros, donec
-                      euismod leo lectus.
-                    </p>
-                  </div>
-                </div>
-                <div className="history-item">
-                  <div className="date">2010 - 2014</div>
-                  <div className="name">Kana Design Studio</div>
-                  <div className="subname">UI / UX Specialist</div>
-                  <div className="text">
-                    <p>
-                      Euismod vel bibendum ultrices, fringilla vel eros, donec
-                      euismod leo lectus.
-                    </p>
-                  </div>
-                </div>
-                <div className="history-item">
-                  <div className="date">2009 - 2010</div>
-                  <div className="name">Paperart</div>
-                  <div className="subname">Graphic Designer</div>
-                  <div className="text">
-                    <p>
-                      Euismod vel bibendum ultrices, fringilla vel eros, donec
-                      euismod leo lectus.
-                    </p>
-                  </div>
+            {exp && (
+              <div className="history-right">
+                <div className="history-items">
+                  <div className="p-title">EXPERIENCE</div>
+                  {data.data.timeline
+                    .sort((a, b) => (a.sequence > b.sequence ? 1 : -1))
+                    .map((e) => {
+                      return e.enabled && !e.forEducation ? (
+                        <div className="history-item">
+                          {e.icon && (
+                            <div className="icon">
+                              <Image
+                                src={e.icon.url}
+                                width={50}
+                                height={50}
+                                alt="icon of the service"
+                              />
+                            </div>
+                          )}
+                          <div className="date">
+                            {getYear(e.startDate, false)} - {getYear(e.endDate)}
+                          </div>
+                          <div className="name">{e.jobTitle}</div>
+                          <div className="subname">{e.company_name}</div>
+                          <div className="text">
+                            <p>{e.summary}</p>
+                          </div>
+                          <div className="text">
+                            <p>{e.jobLocation}</p>
+                          </div>
+                        </div>
+                      ) : (
+                        <></>
+                      );
+                    })}
                 </div>
               </div>
-            </div>
+            )}
             <div className="clear" />
             {/* Button CV */}
             <a
